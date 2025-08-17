@@ -80,7 +80,7 @@ const blogArticles = [
     date: "15 November 2023",
     readTime: "8 menit",
     category: "Spiritual",
-    imageUrl: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=400&h=250&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=400&h=250&fit=crop"
   },
   {
     id: "2", 
@@ -90,7 +90,7 @@ const blogArticles = [
     date: "12 November 2023", 
     readTime: "6 menit",
     category: "Praktis",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=400&h=250&fit=crop"
   },
   {
     id: "3",
@@ -100,7 +100,7 @@ const blogArticles = [
     date: "10 November 2023",
     readTime: "10 menit", 
     category: "Pengembangan Diri",
-    imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=400&h=250&fit=crop"
   },
   {
     id: "4",
@@ -110,7 +110,7 @@ const blogArticles = [
     date: "8 November 2023",
     readTime: "7 menit",
     category: "Spiritual",
-    imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=250&fit=crop"
+    imageUrl: "https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=400&h=250&fit=crop"
   }
 ];
 
@@ -375,7 +375,7 @@ export default function Education() {
         </div>
 
         {/* Hero Section - Mental Health Focus */}
-        <section className="mb-12 text-center py-16 px-6 rounded-3xl shadow-2xl border-2 border-transparent bg-cover bg-center relative" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1567095761475-92d9e17e57f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&h=600')" }}>
+        <section className="mb-12 text-center py-16 px-6 rounded-3xl shadow-2xl border-2 border-transparent bg-cover bg-center relative" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1564769625905-50e93615e769?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&h=600')" }}>
           <div className="absolute inset-0 bg-black/40 rounded-3xl backdrop-blur-sm"></div>
           <div className="relative z-10">
             <h2 className="text-4xl font-extrabold mb-4 leading-tight text-white drop-shadow-xl">
