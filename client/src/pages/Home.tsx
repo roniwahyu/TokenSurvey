@@ -1,7 +1,18 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, TrendingUp, BookOpen, Video, Shield, Users, Star, Award, BarChart3, User } from "lucide-react";
+import {
+  Heart,
+  TrendingUp,
+  BookOpen,
+  Video,
+  Shield,
+  Users,
+  Star,
+  Award,
+  BarChart3,
+  User,
+} from "lucide-react";
 import AssessmentCard from "@/components/AssessmentCard";
 import { assessmentTypes } from "@/lib/assessmentData";
 import { useLocation } from "wouter";
@@ -50,9 +61,15 @@ export default function Home() {
 
         {/* Enhanced Floating Elements */}
         <div className="absolute top-20 right-12 w-32 h-32 bg-gradient-to-br from-white/20 to-yellow-300/30 rounded-full animate-float blur-sm"></div>
-        <div className="absolute bottom-24 left-8 w-24 h-24 bg-gradient-to-br from-emerald-300/40 to-white/20 rounded-full animate-float" style={{animationDelay: '1.5s'}}></div>
+        <div
+          className="absolute bottom-24 left-8 w-24 h-24 bg-gradient-to-br from-emerald-300/40 to-white/20 rounded-full animate-float"
+          style={{ animationDelay: "1.5s" }}
+        ></div>
         <div className="absolute top-40 left-16 w-16 h-16 bg-white/25 rounded-full animate-pulse-soft"></div>
-        <div className="absolute bottom-40 right-20 w-20 h-20 bg-yellow-300/30 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+        <div
+          className="absolute bottom-40 right-20 w-20 h-20 bg-yellow-300/30 rounded-full animate-float"
+          style={{ animationDelay: "2s" }}
+        ></div>
 
         {/* Main Content with Enhanced Design */}
         <div className="relative z-10 animate-slide-up">
@@ -70,11 +87,8 @@ export default function Home() {
                   {/* Glowing effect behind logo */}
                   <div className="absolute -inset-4 bg-white/20 rounded-full blur-xl"></div>
                 </div>
-                
+
                 {/* Heart Icon with Enhanced Design */}
-                <div className="w-20 h-20 bg-gradient-to-br from-white/30 to-white/10 rounded-3xl mx-auto mb-6 flex items-center justify-center backdrop-blur-sm border border-white/30 shadow-lg">
-                  <Heart className="text-white animate-pulse-soft drop-shadow-lg" size={32} />
-                </div>
               </div>
 
               {/* Enhanced Typography */}
@@ -89,10 +103,19 @@ export default function Home() {
               </div>
 
               <p className="body-text text-white/90 text-lg leading-relaxed mb-10 px-4 drop-shadow-sm">
-                Platform <span className="font-semibold text-yellow-200">assessment dan edukasi</span> kesehatan mental yang dirancang khusus untuk mendukung kesejahteraan psikologis santri dengan <span className="font-semibold text-emerald-200">pendekatan islami</span> dan modern
+                Platform{" "}
+                <span className="font-semibold text-yellow-200">
+                  assessment dan edukasi
+                </span>{" "}
+                kesehatan mental yang dirancang khusus untuk mendukung
+                kesejahteraan psikologis santri dengan{" "}
+                <span className="font-semibold text-emerald-200">
+                  pendekatan islami
+                </span>{" "}
+                dan modern
               </p>
 
-            {/* Enhanced Action Buttons */}
+              {/* Enhanced Action Buttons */}
               <div className="space-y-6">
                 <Button
                   onClick={() => setLocation("/assessment")}
@@ -100,7 +123,7 @@ export default function Home() {
                   data-testid="start-assessment-hero"
                 >
                   <Shield className="mr-3" size={24} />
-                  Mulai Assessment Kesehatan Mental
+                  Mulai Assessment
                 </Button>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -133,39 +156,72 @@ export default function Home() {
       {/* Enhanced Stats Cards */}
       <section className="px-4 -mt-8 relative z-20">
         <div className="grid grid-cols-3 gap-4 mb-8">
-          <Card className="modern-card animate-slide-up border-0 shadow-xl" style={{animationDelay: '0.1s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-xl"
+            style={{ animationDelay: "0.1s" }}
+          >
             <CardContent className="p-5 text-center">
               <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-2xl mx-auto mb-3 flex items-center justify-center">
-                <Award className="text-green-600 dark:text-green-400" size={24} />
+                <Award
+                  className="text-green-600 dark:text-green-400"
+                  size={24}
+                />
               </div>
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400" data-testid="stats-completed">
+              <div
+                className="text-2xl font-bold text-green-600 dark:text-green-400"
+                data-testid="stats-completed"
+              >
                 {stats.completed}
               </div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Assessment Selesai</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                Assessment Selesai
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="modern-card animate-slide-up border-0 shadow-xl" style={{animationDelay: '0.2s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-xl"
+            style={{ animationDelay: "0.2s" }}
+          >
             <CardContent className="p-5 text-center">
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-2xl mx-auto mb-3 flex items-center justify-center">
-                <TrendingUp className="text-blue-600 dark:text-blue-400" size={24} />
+                <TrendingUp
+                  className="text-blue-600 dark:text-blue-400"
+                  size={24}
+                />
               </div>
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400" data-testid="stats-progress">
+              <div
+                className="text-2xl font-bold text-blue-600 dark:text-blue-400"
+                data-testid="stats-progress"
+              >
                 {stats.progress}
               </div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Sedang Berjalan</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                Sedang Berjalan
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="modern-card animate-slide-up border-0 shadow-xl" style={{animationDelay: '0.3s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-xl"
+            style={{ animationDelay: "0.3s" }}
+          >
             <CardContent className="p-5 text-center">
               <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-2xl mx-auto mb-3 flex items-center justify-center">
-                <Video className="text-yellow-600 dark:text-yellow-400" size={24} />
+                <Video
+                  className="text-yellow-600 dark:text-yellow-400"
+                  size={24}
+                />
               </div>
-              <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400" data-testid="stats-videos">
+              <div
+                className="text-2xl font-bold text-yellow-600 dark:text-yellow-400"
+                data-testid="stats-videos"
+              >
                 {stats.videos}
               </div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Video Ditonton</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                Video Ditonton
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -177,43 +233,83 @@ export default function Home() {
           Fitur Unggulan TokenPedia
         </h3>
         <div className="grid grid-cols-2 gap-4 mb-8">
-          <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.4s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-lg"
+            style={{ animationDelay: "0.4s" }}
+          >
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900 dark:to-green-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">
-                <Shield className="text-green-600 dark:text-green-400" size={28} />
+                <Shield
+                  className="text-green-600 dark:text-green-400"
+                  size={28}
+                />
               </div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Assessment Terpercaya</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">5 skala psikologi tervalidasi untuk evaluasi komprehensif</p>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                Assessment Terpercaya
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                5 skala psikologi tervalidasi untuk evaluasi komprehensif
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.5s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-lg"
+            style={{ animationDelay: "0.5s" }}
+          >
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">
-                <BookOpen className="text-blue-600 dark:text-blue-400" size={28} />
+                <BookOpen
+                  className="text-blue-600 dark:text-blue-400"
+                  size={28}
+                />
               </div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Edukasi Islami</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Materi kesehatan mental dengan perspektif Islam</p>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                Edukasi Islami
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Materi kesehatan mental dengan perspektif Islam
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.6s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-lg"
+            style={{ animationDelay: "0.6s" }}
+          >
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900 dark:to-yellow-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">
-                <Users className="text-yellow-600 dark:text-yellow-400" size={28} />
+                <Users
+                  className="text-yellow-600 dark:text-yellow-400"
+                  size={28}
+                />
               </div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Komunitas Santri</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Platform khusus untuk santri Indonesia</p>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                Komunitas Santri
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Platform khusus untuk santri Indonesia
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.7s'}}>
+          <Card
+            className="modern-card animate-slide-up border-0 shadow-lg"
+            style={{ animationDelay: "0.7s" }}
+          >
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">
-                <Star className="text-purple-600 dark:text-purple-400" size={28} />
+                <Star
+                  className="text-purple-600 dark:text-purple-400"
+                  size={28}
+                />
               </div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Progres Tracking</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Pantau perkembangan kesehatan mental Anda</p>
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+                Progres Tracking
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Pantau perkembangan kesehatan mental Anda
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -238,7 +334,7 @@ export default function Home() {
         <div className="space-y-4">
           {assessmentTypes.slice(0, 3).map((assessment) => {
             const userAssessment = (assessments as any[]).find(
-              (a: any) => a.type === assessment.id
+              (a: any) => a.type === assessment.id,
             );
             const progress = userAssessment?.progress || 0;
             const isCompleted = userAssessment?.isCompleted || false;
