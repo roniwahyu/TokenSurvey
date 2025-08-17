@@ -385,95 +385,130 @@
   .touch-target {
     min-height: 44px;
     min-width: 44px;
-  }
-
-  /* Navigation Float Styles */
-  nav {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-
-  /* Enhanced Micro Interactions */
-  @keyframes float-up {
-    0% {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes ripple {
-    0% {
-      transform: scale(0);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-
-  .nav-enter {
-    animation: float-up 0.3s ease-out;
-  }
-
-  /* Button hover effects */
-  button:active {
-    transform: scale(0.95);
-  }
-
-  button:hover {
-    transform: scale(1.05);
-  }
-
-  /* Card hover effects */
-  .card-hover {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-
-  /* Ripple effect */
-  .ripple {
     position: relative;
     overflow: hidden;
   }
 
-  .ripple::before {
-    content: "";
+  /* Enhanced micro-interactions */
+  .touch-target::before {
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: currentColor;
+    background: rgba(var(--primary), 0.2);
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-    opacity: 0.3;
+    transition: width 0.3s ease, height 0.3s ease;
+    z-index: 0;
   }
 
-  .ripple:active::before {
-    width: 300px;
-    height: 300px;
+  .touch-target:active::before {
+    width: 100%;
+    height: 100%;
   }
 
-  /* Enhanced focus states */
-  .focus-ring:focus-visible {
-    outline: 2px solid #22c55e;
+  /* Ripple effect */
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-effect::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  .ripple-effect:active::after {
+    width: 200px;
+    height: 200px;
+  }
+
+  /* Scale on tap animation */
+  .scale-on-tap {
+    transition: all 0.15s ease;
+  }
+
+  .scale-on-tap:active {
+    transform: scale(0.95);
+  }
+
+  /* Enhanced card hover effects */
+  .card-hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Focus ring for accessibility */
+  .focus-ring:focus {
+    outline: 2px solid #2196F3;
     outline-offset: 2px;
   }
 
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  /* Enhanced navigation animations */
+  @keyframes navPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .nav-active {
+    animation: navPulse 0.6s ease-in-out;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button, a, [role="button"] {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Enhanced loading states */
+  @keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Improved scroll behavior */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Enhanced button states */
+  .btn-primary {
+    background: linear-gradient(135deg, #00BFA5, #2196F3);
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #00ACC1, #1976D2);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(0, 191, 165, 0.3);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 191, 165, 0.2);
   }
 }

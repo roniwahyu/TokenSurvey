@@ -113,37 +113,51 @@ export default function Profile() {
       icon: <Settings className="w-5 h-5 text-gray-600 dark:text-gray-400" />,
       title: "Pengaturan",
       subtitle: "Kelola preferensi aplikasi",
-      onClick: () => console.log("Settings clicked"),
+      onClick: () => setLocation("/settings"),
     },
     {
       icon: <Bell className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />,
       title: "Notifikasi",
       subtitle: "Atur pengingat dan notifikasi",
-      onClick: () => console.log("Notifications clicked"),
+      onClick: () => setLocation("/notifications"),
     },
     {
       icon: <Shield className="w-5 h-5 text-green-600 dark:text-green-400" />,
       title: "Privasi & Keamanan",
       subtitle: "Kelola data dan keamanan akun",
-      onClick: () => console.log("Privacy clicked"),
+      onClick: () => setLocation("/privacy"),
     },
     {
       icon: <Download className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
       title: "Unduh Data",
       subtitle: "Ekspor hasil assessment Anda",
-      onClick: () => console.log("Download clicked"),
+      onClick: () => {
+        // TODO: Implement data export functionality
+        console.log("Download data functionality");
+      },
     },
     {
       icon: <Share2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
       title: "Bagikan Aplikasi",
       subtitle: "Ajak teman menggunakan TokenPedia",
-      onClick: () => console.log("Share clicked"),
+      onClick: () => {
+        if (navigator.share) {
+          navigator.share({
+            title: 'TOKEN PEDIA',
+            text: 'Platform kesehatan mental untuk santri',
+            url: window.location.origin
+          });
+        } else {
+          navigator.clipboard.writeText(window.location.origin);
+          console.log("App URL copied to clipboard");
+        }
+      },
     },
     {
       icon: <HelpCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
       title: "Bantuan & Dukungan",
       subtitle: "FAQ dan kontak dukungan",
-      onClick: () => console.log("Help & Support clicked"),
+      onClick: () => setLocation("/help"),
     },
   ];
 
@@ -176,8 +190,13 @@ export default function Profile() {
   };
 
   const handleLogout = () => {
-    // TODO: Implement logout functionality
-    console.log("Logout clicked");
+    // Clear user data and redirect to home
+    localStorage.removeItem('userSettings');
+    localStorage.removeItem('assessmentProgress');
+    setLocation("/");
+    
+    // Show confirmation toast
+    console.log("User logged out successfully");
   };
 
   return (

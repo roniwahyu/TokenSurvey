@@ -10,6 +10,10 @@ import Assessment from "./pages/Assessment";
 import Education from "./pages/Education";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Notifications from "./pages/Notifications";
+import Privacy from "./pages/Privacy";
+import HelpSupport from "./pages/HelpSupport";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +25,10 @@ function Router() {
       <Route path="/education" component={Education} />
       <Route path="/history" component={History} />
       <Route path="/profile" component={Profile} />
+      <Route path="/settings" component={Settings} />
+      <Route path="/notifications" component={Notifications} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/help" component={HelpSupport} />
       <Route component={NotFound} />
     </Switch>
   );
