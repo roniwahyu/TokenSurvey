@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { db } from "@/server/db";
+import { db } from "./db.js";
+import { storage } from "./storage.js";
 import {
   users,
   assessments,
@@ -8,7 +9,7 @@ import {
   insertUserSchema,
   insertAssessmentSchema,
   insertAssessmentResultSchema
-} from "@shared/schema";
+} from "../shared/schema.js";
 import { eq, and, desc } from "drizzle-orm";
 
 // Database connection helper with error handling
