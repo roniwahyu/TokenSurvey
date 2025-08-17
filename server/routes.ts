@@ -137,6 +137,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Complete assessment with scoring and interpretation
+  app.post("/api/users/:userId/assessments/:assessmentId/complete", async (req, res) => {
+    try {
+      const { userId, assessmentId } = req.params;
+      const { answers, type } = req.body;
+
+      // Calculate scores and interpretation using dynamic import
+      const { calculateAssessmentScore } = await import("../client/src/lib/assessmentLogic.js");
+      const result = calculateAssessmentScore(type, answers);
+
+      // Save assessment result
+      const assessmentResult = await storage.createAssessmentResult({
+        assessmentId,
+        userId,
+        type,
+        scores: result.subscales || { total: result.totalScore },
+        categories: { severity: result.severity },
+        interpretation: result.interpretation
+      });
+
+      // Update assessment as completed
+      await storage.updateAssessment(assessmentId, {
+        isCompleted: true,
+        results: result,
+        progress: 100
+      });
+
+      // Complete assessment session
+      await storage.completeAssessmentSession(userId, type);
+
+      // Update user progress
+      const currentProgress = await storage.getUserProgress(userId);
+      await storage.updateUserProgress(userId, {
+        assessmentsCompleted: (currentProgress?.assessmentsCompleted || 0) + 1,
+        assessmentsInProgress: Math.max((currentProgress?.assessmentsInProgress || 1) - 1, 0)
+      });
+
+      res.json({
+        success: true,
+        result: assessmentResult,
+        scores: result
+      });
+    } catch (error) {
+      console.error("Error completing assessment:", error);
+      res.status(500).json({ message: "Failed to complete assessment" });
+    }
+  });
+
   app.get("/api/assessment-results/:assessmentId", async (req, res) => {
     try {
       const result = await storage.getAssessmentResult(req.params.assessmentId);
@@ -164,6 +212,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating user progress:", error);
       res.status(500).json({ message: "Failed to update progress" });
+    }
+  });
+
+  // Assessment session management routes
+  app.post("/api/users/:userId/assessment-sessions", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const sessionData = req.body;
+      const session = await storage.saveAssessmentSession(userId, sessionData);
+      res.json(session);
+    } catch (error) {
+      console.error("Error saving assessment session:", error);
+      res.status(500).json({ message: "Failed to save assessment session" });
+    }
+  });
+
+  app.get("/api/users/:userId/assessment-sessions/:assessmentType", async (req, res) => {
+    try {
+      const { userId, assessmentType } = req.params;
+      const session = await storage.getAssessmentSession(userId, assessmentType);
+      res.json(session || null);
+    } catch (error) {
+      console.error("Error fetching assessment session:", error);
+      res.status(500).json({ message: "Failed to fetch assessment session" });
+    }
+  });
+
+  app.post("/api/users/:userId/assessment-sessions/:assessmentType/exit", async (req, res) => {
+    try {
+      const { userId, assessmentType } = req.params;
+      await storage.incrementSessionExit(userId, assessmentType);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error incrementing exit count:", error);
+      res.status(500).json({ message: "Failed to update exit count" });
     }
   });
 

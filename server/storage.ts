@@ -78,7 +78,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAssessment(insertAssessment: InsertAssessment): Promise<Assessment> {
-    const [assessment] = await db.insert(assessments).values(insertAssessment).returning();
+    const [assessment] = await db.insert(assessments).values({
+      ...insertAssessment,
+      currentQuestion: 0,
+      progress: 0,
+      isCompleted: false,
+      results: null
+    }).returning();
     return assessment;
   }
 
@@ -165,7 +171,10 @@ export class DatabaseStorage implements IStorage {
       .onConflictDoUpdate({
         target: [assessmentSessions.userId, assessmentSessions.assessmentType],
         set: {
-          ...sessionData,
+          currentQuestion: sessionData.currentQuestion,
+          totalQuestions: sessionData.totalQuestions,
+          answers: sessionData.answers,
+          sessionData: sessionData.sessionData || {},
           lastSavedAt: new Date(),
         },
       })

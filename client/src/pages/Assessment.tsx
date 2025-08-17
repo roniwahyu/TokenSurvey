@@ -9,6 +9,7 @@ import { assessmentTypes, getAssessmentById, calculateScore } from "@/lib/assess
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import AssessmentCard from "@/components/AssessmentCard";
+import { calculateAssessmentScore } from "@/lib/assessmentLogic";
 
 // Mock user ID for demo purposes
 const MOCK_USER_ID = "demo-user";
@@ -63,19 +64,32 @@ export default function Assessment() {
     },
   });
 
-  // Save results mutation
-  const saveResultsMutation = useMutation({
-    mutationFn: async (data: any) => {
-      return await apiRequest("POST", "/api/assessment-results", data);
+  // Complete assessment mutation with scoring
+  const completeAssessmentMutation = useMutation({
+    mutationFn: async (data: { answers: { [key: string]: number | boolean }, type: string, assessmentId: string }) => {
+      return await apiRequest("POST", `/api/users/${MOCK_USER_ID}/assessments/${data.assessmentId}/complete`, {
+        answers: data.answers,
+        type: data.type
+      });
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["/api/users", MOCK_USER_ID] });
       toast({
         title: "Assessment selesai!",
-        description: "Hasil assessment Anda telah disimpan.",
+        description: `Hasil assessment telah disimpan. Tingkat: ${response.scores?.severity || 'Normal'}`,
       });
-      setLocation("/history");
+      // Navigate to results or history page
+      setTimeout(() => {
+        setLocation("/history");
+      }, 2000);
     },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Gagal menyelesaikan assessment. Coba lagi.",
+        variant: "destructive",
+      });
+    }
   });
 
   const handleAnswerChange = (questionIndex: number, answer: number | boolean) => {
@@ -121,7 +135,7 @@ export default function Assessment() {
   };
 
   const handleComplete = () => {
-    if (!assessmentData) return;
+    if (!assessmentData || !assessmentType) return;
 
     const validAnswers = answers.filter(answer => answer !== null && answer !== undefined);
     if (validAnswers.length !== assessmentData.questions.length) {
@@ -133,42 +147,51 @@ export default function Assessment() {
       return;
     }
 
-    // Calculate results
-    const { scores, categories, interpretation } = calculateScore(assessmentData, answers);
-
-    // Save completed assessment
-    const questionsWithAnswers = assessmentData.questions.map((q, index) => ({
-      question: q.question,
-      answer: answers[index],
-      options: q.options,
-      category: q.category,
-    }));
-
-    const assessmentPayload = {
-      userId: MOCK_USER_ID,
-      type: assessmentData.id,
-      title: assessmentData.title,
-      questions: questionsWithAnswers,
-      currentQuestion: assessmentData.questions.length - 1,
-      progress: 100,
-      isCompleted: true,
-      results: { scores, categories, interpretation },
-    };
-
-    saveAssessmentMutation.mutate(assessmentPayload, {
-      onSuccess: (assessment) => {
-        // Save results
-        const resultPayload = {
-          assessmentId: assessment.id || existingAssessment?.id,
-          userId: MOCK_USER_ID,
-          type: assessmentData.id,
-          scores,
-          categories,
-          interpretation,
-        };
-        saveResultsMutation.mutate(resultPayload);
-      },
+    // Convert answers to object format for new scoring system
+    const answersMap: { [key: string]: number | boolean } = {};
+    answers.forEach((answer, index) => {
+      if (answer !== null && answer !== undefined) {
+        answersMap[index + 1] = answer; // 1-based indexing
+      }
     });
+
+    if (existingAssessment?.id) {
+      // Complete existing assessment with comprehensive scoring
+      completeAssessmentMutation.mutate({
+        answers: answersMap,
+        type: assessmentType,
+        assessmentId: existingAssessment.id
+      });
+    } else {
+      // Create new assessment and complete it
+      const questionsWithAnswers = assessmentData.questions.map((q, index) => ({
+        question: q.question,
+        answer: answers[index],
+        options: q.options,
+        category: q.category,
+      }));
+
+      const assessmentPayload = {
+        userId: MOCK_USER_ID,
+        type: assessmentType,
+        title: assessmentData.title,
+        questions: questionsWithAnswers,
+        currentQuestion: assessmentData.questions.length - 1,
+        progress: 100,
+        isCompleted: false, // Will be set to true by complete endpoint
+      };
+
+      saveAssessmentMutation.mutate(assessmentPayload, {
+        onSuccess: (assessment) => {
+          // Complete the assessment with scoring
+          completeAssessmentMutation.mutate({
+            answers: answersMap,
+            type: assessmentType,
+            assessmentId: assessment.id
+          });
+        },
+      });
+    }
   };
 
   const handleStartAssessment = (type: string) => {
