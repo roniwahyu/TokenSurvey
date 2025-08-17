@@ -43,10 +43,28 @@ export const userProgress = pgTable("user_progress", {
   assessmentsCompleted: integer("assessments_completed").default(0),
   assessmentsInProgress: integer("assessments_in_progress").default(0),
   videosWatched: integer("videos_watched").default(0),
+  materialsDownloaded: integer("materials_downloaded").default(0),
   streakDays: integer("streak_days").default(0),
+  totalTimeSpent: integer("total_time_spent").default(0), // in minutes
   lastActiveDate: timestamp("last_active_date").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Assessment session tracking for auto-save functionality
+export const assessmentSessions = pgTable("assessment_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  assessmentType: varchar("assessment_type").notNull(), // DASS-42, PDD, MHKQ, MSCS, GSE
+  currentQuestion: integer("current_question").default(0),
+  totalQuestions: integer("total_questions").notNull(),
+  answers: json("answers").$type<{ [key: string]: number | boolean }>().default({}),
+  startedAt: timestamp("started_at").defaultNow(),
+  lastSavedAt: timestamp("last_saved_at").defaultNow(),
+  isCompleted: boolean("is_completed").default(false),
+  completedAt: timestamp("completed_at"),
+  exitCount: integer("exit_count").default(0), // Track how many times user exited
+  sessionData: json("session_data").$type<{ [key: string]: any }>().default({}),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({

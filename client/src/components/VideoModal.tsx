@@ -21,22 +21,25 @@ export default function VideoModal({ video, isOpen, onClose }: VideoModalProps) 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full p-1">
-        <DialogHeader className="p-4 border-b border-gray-200 dark:border-gray-700">
+      <DialogContent className="max-w-5xl w-full p-0 modern-card animate-fade-scale border-0 overflow-hidden">
+        <DialogHeader className="p-6 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 text-white">
           <div className="flex items-center justify-between">
-            <DialogTitle className="font-semibold text-gray-900 dark:text-white">
-              {video.title}
-            </DialogTitle>
-            <div className="flex items-center space-x-2">
+            <div className="flex-1">
+              <DialogTitle className="font-bold text-xl mb-2 text-white">
+                🎬 {video.title}
+              </DialogTitle>
+              <p className="text-white/80 text-sm">{video.description}</p>
+            </div>
+            <div className="flex items-center space-x-3">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleOpenExternal}
-                className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg text-xs"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-xl font-semibold shadow-lg hover:scale-105 transition-all duration-200 backdrop-blur-sm"
                 data-testid="open-youtube"
               >
-                <ExternalLink className="mr-1" size={12} />
-                YouTube
+                <ExternalLink className="mr-2" size={16} />
+                🚀 Lihat di YouTube
               </Button>
               <Button
                 variant="ghost"
@@ -51,17 +54,18 @@ export default function VideoModal({ video, isOpen, onClose }: VideoModalProps) 
           </div>
         </DialogHeader>
         
-        <div className="p-4">
-          <div className="aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+        <div className="p-6 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
+          <div className="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
             {videoId ? (
               <iframe
                 width="100%"
                 height="100%"
-                src={`https://www.youtube.com/embed/${videoId}`}
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
                 title={video.title}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                className="rounded-2xl"
                 data-testid="youtube-iframe"
               />
             ) : (

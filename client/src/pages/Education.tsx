@@ -51,37 +51,79 @@ export default function Education() {
             <Button
               variant="ghost"
               onClick={handleMenuToggle}
-              className="p-3 rounded-xl bg-primary/10 text-primary hover:bg-primary/20"
+              className={cn(
+                "p-3 rounded-xl transition-all duration-200 hover:scale-105 shadow-md",
+                showPopup 
+                  ? "bg-gradient-to-r from-green-500 to-blue-500 text-white" 
+                  : "bg-primary/10 text-primary hover:bg-primary/20"
+              )}
               data-testid="education-menu-toggle"
             >
-              <MoreVertical size={20} />
+              <MoreVertical size={20} className="animate-pulse-soft" />
             </Button>
           </div>
           
-          {/* Top Popup Menu (appears above button) */}
+          {/* Enhanced Upward Popup Menu */}
           <div 
             className={cn(
-              "absolute right-0 bottom-full mb-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 transition-all duration-200",
-              showPopup ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-2"
+              "absolute right-0 bottom-full mb-3 w-64 glassmorphism-enhanced rounded-2xl shadow-2xl border border-white/20 z-50 transition-all duration-300 backdrop-blur-xl",
+              showPopup ? "opacity-100 visible translate-y-0 scale-100" : "opacity-0 invisible translate-y-4 scale-95"
             )}
             data-testid="education-popup"
           >
-            <div className="p-2">
+            <div className="p-4 space-y-3">
               <button
                 onClick={() => handleSectionChange("videos")}
-                className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className={cn(
+                  "w-full flex items-center space-x-4 px-4 py-4 text-left rounded-xl transition-all duration-200 touch-target transform hover:scale-105",
+                  activeSection === "videos"
+                    ? "bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg"
+                    : "hover:bg-white/10 text-gray-700 dark:text-gray-300"
+                )}
                 data-testid="menu-videos"
               >
-                <PlayCircle className="text-red-500" size={20} />
-                <span>Video Playlist</span>
+                <div className={cn(
+                  "w-12 h-12 rounded-xl flex items-center justify-center",
+                  activeSection === "videos" ? "bg-white/20" : "bg-red-100 dark:bg-red-900"
+                )}>
+                  <PlayCircle size={24} className={activeSection === "videos" ? "text-white" : "text-red-500"} />
+                </div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm flex items-center gap-2">
+                    🎥 Video Edukasi
+                    <span className="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 rounded-full text-xs">
+                      Hot
+                    </span>
+                  </div>
+                  <p className="text-xs opacity-80 mt-1">Konten video interaktif berkualitas tinggi</p>
+                </div>
               </button>
+              
               <button
                 onClick={() => handleSectionChange("materials")}
-                className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className={cn(
+                  "w-full flex items-center space-x-4 px-4 py-4 text-left rounded-xl transition-all duration-200 touch-target transform hover:scale-105",
+                  activeSection === "materials"
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg"
+                    : "hover:bg-white/10 text-gray-700 dark:text-gray-300"
+                )}
                 data-testid="menu-materials"
               >
-                <FileText className="text-blue-500" size={20} />
-                <span>Materi PDF</span>
+                <div className={cn(
+                  "w-12 h-12 rounded-xl flex items-center justify-center",
+                  activeSection === "materials" ? "bg-white/20" : "bg-blue-100 dark:bg-blue-900"
+                )}>
+                  <FileText size={24} className={activeSection === "materials" ? "text-white" : "text-blue-500"} />
+                </div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm flex items-center gap-2">
+                    📚 Materi PDF
+                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full text-xs">
+                      New
+                    </span>
+                  </div>
+                  <p className="text-xs opacity-80 mt-1">Unduh materi lengkap untuk belajar offline</p>
+                </div>
               </button>
             </div>
           </div>

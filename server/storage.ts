@@ -3,6 +3,7 @@ import {
   assessments,
   assessmentResults,
   userProgress,
+  assessmentSessions,
   type User,
   type InsertUser,
   type Assessment,
@@ -12,7 +13,7 @@ import {
   type UserProgress,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, sql } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
@@ -35,6 +36,12 @@ export interface IStorage {
   // User progress operations
   getUserProgress(userId: string): Promise<UserProgress | undefined>;
   updateUserProgress(userId: string, data: Partial<UserProgress>): Promise<UserProgress>;
+  
+  // Assessment session operations for auto-save
+  saveAssessmentSession(userId: string, sessionData: any): Promise<any>;
+  getAssessmentSession(userId: string, assessmentType: string): Promise<any>;
+  completeAssessmentSession(userId: string, assessmentType: string): Promise<void>;
+  incrementSessionExit(userId: string, assessmentType: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -71,13 +78,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAssessment(insertAssessment: InsertAssessment): Promise<Assessment> {
-    const [assessment] = await db.insert(assessments).values({
-      ...insertAssessment,
-      currentQuestion: 0,
-      progress: 0,
-      isCompleted: false,
-      results: null
-    }).returning();
+    const [assessment] = await db.insert(assessments).values(insertAssessment).returning();
     return assessment;
   }
 
@@ -144,6 +145,76 @@ export class DatabaseStorage implements IStorage {
       .where(eq(userProgress.userId, userId))
       .returning();
     return progress;
+  }
+
+  // Assessment session management for auto-save functionality
+  async saveAssessmentSession(userId: string, sessionData: {
+    assessmentType: string;
+    currentQuestion: number;
+    totalQuestions: number;
+    answers: { [key: string]: number | boolean };
+    sessionData?: { [key: string]: any };
+  }): Promise<any> {
+    const [session] = await db
+      .insert(assessmentSessions)
+      .values({
+        userId,
+        ...sessionData,
+        lastSavedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: [assessmentSessions.userId, assessmentSessions.assessmentType],
+        set: {
+          ...sessionData,
+          lastSavedAt: new Date(),
+        },
+      })
+      .returning();
+    return session;
+  }
+
+  async getAssessmentSession(userId: string, assessmentType: string): Promise<any> {
+    const [session] = await db
+      .select()
+      .from(assessmentSessions)
+      .where(
+        and(
+          eq(assessmentSessions.userId, userId),
+          eq(assessmentSessions.assessmentType, assessmentType),
+          eq(assessmentSessions.isCompleted, false)
+        )
+      );
+    return session;
+  }
+
+  async completeAssessmentSession(userId: string, assessmentType: string): Promise<void> {
+    await db
+      .update(assessmentSessions)
+      .set({
+        isCompleted: true,
+        completedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(assessmentSessions.userId, userId),
+          eq(assessmentSessions.assessmentType, assessmentType)
+        )
+      );
+  }
+
+  async incrementSessionExit(userId: string, assessmentType: string): Promise<void> {
+    await db
+      .update(assessmentSessions)
+      .set({
+        exitCount: sql`${assessmentSessions.exitCount} + 1`,
+        lastSavedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(assessmentSessions.userId, userId),
+          eq(assessmentSessions.assessmentType, assessmentType)
+        )
+      );
   }
 }
 
