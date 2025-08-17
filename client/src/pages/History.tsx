@@ -148,29 +148,6 @@ export default function History() {
     </div>
   );
 }
-import React, { useState } from "react";
-import { useLocation } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import {
-  Calendar,
-  TrendingUp,
-  Award,
-  Clock,
-  ChevronLeft,
-  Download,
-  Share2,
-  Filter,
-  Eye,
-  BarChart3,
-  FileText,
-  CheckCircle,
-  AlertCircle,
-} from "lucide-react";
-import { format } from "date-fns";
-import { id as localeId } from "date-fns/locale";
-import AssessmentResultCard from "@/components/AssessmentResultCard";
 
 // Mock user ID for demo purposes
 const MOCK_USER_ID = "demo-user";
