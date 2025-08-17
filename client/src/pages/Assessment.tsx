@@ -86,7 +86,7 @@ export default function Assessment() {
         title: "Assessment selesai!",
         description: `Hasil assessment telah disimpan. Tingkat: ${response.scores?.severity || 'Normal'}`,
       });
-      // Navigate to results or history page
+      // Navigate to history page after completion
       setTimeout(() => {
         setLocation("/history");
       }, 2000);
@@ -228,7 +228,7 @@ export default function Assessment() {
 
             {/* History Shortcut */}
             <Button
-              onClick={() => setLocation("/profile")}
+              onClick={() => setLocation("/history")}
               variant="outline"
               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800 dark:hover:to-indigo-800 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
               data-testid="history-shortcut"

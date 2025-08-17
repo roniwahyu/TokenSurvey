@@ -75,7 +75,7 @@ export default function Home() {
           className="absolute bottom-40 right-20 w-5 h-5 text-white/40 animate-particles text-lg"
           style={{ animationDelay: "2s" }}
         >✧</div>
-        
+
         {/* Additional floating geometric elements */}
         <div className="absolute top-32 right-24 w-16 h-16 border border-white/20 rounded-full animate-float blur-sm"></div>
         <div
@@ -158,14 +158,14 @@ export default function Home() {
                   </Button>
 
                   <Button
-                    onClick={() => setLocation("/profile")}
+                    onClick={() => setLocation("/history")}
                     variant="outline"
                     className="glassmorphism-card text-white hover:bg-white/25 px-6 py-4 rounded-xl font-semibold scale-on-tap transition-all duration-300"
                     style={{ fontFamily: 'Poppins', fontWeight: '500' }}
-                    data-testid="profile-hero"
+                    data-testid="history-hero"
                   >
-                    <User className="mr-2" size={20} />
-                    Profil
+                    <BarChart3 className="mr-2" size={20} />
+                    Riwayat
                   </Button>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function Home() {
               >
                 {stats.completed}
               </div>
-              <div className="text-sm font-medium text-gray-600 dark:text-gray-300" 
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300"
                    style={{ fontFamily: 'Roboto' }}>
                 Assessment Selesai
               </div>
@@ -250,7 +250,7 @@ export default function Home() {
 
       {/* Features Section - Horizontal Scrollable as per specs */}
       <section className="px-4 mb-8">
-        <h3 className="heading-title mb-6 text-center text-gray-900 dark:text-white" 
+        <h3 className="heading-title mb-6 text-center text-gray-900 dark:text-white"
             style={{ fontFamily: 'Poppins' }}>
           Fitur Unggulan TOKEN PEDIA
         </h3>
@@ -258,7 +258,7 @@ export default function Home() {
           {/* Horizontal Scrollable Cards - 150x200px as specified */}
           <Card
             className="card-hover-lift animate-slide-up border-0 shadow-lg flex-shrink-0"
-            style={{ 
+            style={{
               animationDelay: "0.4s",
               width: '150px',
               height: '200px'
@@ -284,7 +284,7 @@ export default function Home() {
 
           <Card
             className="card-hover-lift animate-slide-up border-0 shadow-lg flex-shrink-0"
-            style={{ 
+            style={{
               animationDelay: "0.5s",
               width: '150px',
               height: '200px'
@@ -310,7 +310,7 @@ export default function Home() {
 
           <Card
             className="card-hover-lift animate-slide-up border-0 shadow-lg flex-shrink-0"
-            style={{ 
+            style={{
               animationDelay: "0.6s",
               width: '150px',
               height: '200px'
@@ -336,7 +336,7 @@ export default function Home() {
 
           <Card
             className="card-hover-lift animate-slide-up border-0 shadow-lg flex-shrink-0"
-            style={{ 
+            style={{
               animationDelay: "0.7s",
               width: '150px',
               height: '200px'
@@ -362,7 +362,7 @@ export default function Home() {
 
           <Card
             className="card-hover-lift animate-slide-up border-0 shadow-lg flex-shrink-0"
-            style={{ 
+            style={{
               animationDelay: "0.8s",
               width: '150px',
               height: '200px'

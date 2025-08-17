@@ -250,7 +250,7 @@
   }
 
   .mosque-pattern {
-    background-image: 
+    background-image:
       radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
       linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
       linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%);
@@ -309,7 +309,7 @@
   .modern-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(214, 214, 214, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
@@ -385,37 +385,26 @@
   .touch-target {
     min-height: 44px;
     min-width: 44px;
-    position: relative;
-    overflow: hidden;
   }
 
-  /* Enhanced micro-interactions */
-  .touch-target::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(var(--primary), 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-    z-index: 0;
+  .scale-on-tap {
+    transition: transform 0.1s ease-in-out;
   }
 
-  .touch-target:active::before {
-    width: 100%;
-    height: 100%;
+  .scale-on-tap:active {
+    transform: scale(0.95);
   }
 
-  /* Ripple effect */
+  .scale-on-tap:hover {
+    transform: scale(1.02);
+  }
+
   .ripple-effect {
     position: relative;
     overflow: hidden;
   }
 
-  .ripple-effect::after {
+  .ripple-effect::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -423,23 +412,14 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.5);
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
+    transition: width 0.6s, height 0.6s;
   }
 
-  .ripple-effect:active::after {
-    width: 200px;
-    height: 200px;
-  }
-
-  /* Scale on tap animation */
-  .scale-on-tap {
-    transition: all 0.15s ease;
-  }
-
-  .scale-on-tap:active {
-    transform: scale(0.95);
+  .ripple-effect:active::before {
+    width: 300px;
+    height: 300px;
   }
 
   /* Enhanced card hover effects */
@@ -448,8 +428,39 @@
   }
 
   .card-hover-lift:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) scale(1.02);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .card-hover-lift:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  /* Button press animation */
+  .btn-press {
+    transition: all 0.1s ease-in-out;
+  }
+
+  .btn-press:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Navigation item active bounce */
+  @keyframes nav-bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-3px);
+    }
+    60% {
+      transform: translateY(-1px);
+    }
+  }
+
+  .nav-active {
+    animation: nav-bounce 0.6s ease-in-out;
   }
 
   /* Focus ring for accessibility */

@@ -129,7 +129,7 @@ export default function AssessmentCard({
           </div>
         </div>
         <Button
-          className={cn("w-full py-2 rounded-xl font-medium text-sm transition-colors", colors.button)}
+          className={cn("w-full py-2 rounded-xl font-medium text-sm transition-all duration-200 btn-press", colors.button)}
           onClick={() => onStart(id)}
           data-testid={`start-assessment-${id}`}
         >
