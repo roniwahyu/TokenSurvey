@@ -1,0 +1,190 @@
+Buat aplikasi berbasis mobile ui/ux untuk form kuisioner Kesehatan mental untuk santri "TOKEN PEDIA", modern ui/ux, responsive, intuitive, fresh design, clean. sleek. User dapat memilih assessment secraa mandiri, termasuk informasi dan edukasi terkait Kesehatan mental :
+1. DASS-42 (Depression, Anxiety, Stress Scales)
+Tujuan:
+Mengukur tingkat depresi, kecemasan, dan stres pada individu secara terpisah melalui 42 pertanyaan yang terbagi menjadi tiga subskala (14 butir per dimensi).
+
+Format:
+
+42 item
+
+Skala Likert 0–3 (Tidak Pernah – Sangat Sering)
+
+3 Subskala:
+
+Depression: gejala mood rendah, kehilangan minat, perasaan tidak berharga
+
+Anxiety: gejala gugup, panik, ketegangan fisiologis
+
+Stress: kesulitan relaksasi, mudah tersinggung, ketegangan berlebih
+
+Interpretasi:
+Skor tiap subskala dikategorikan menjadi Normal, Mild, Moderate, Severe, atau Extremely Severe. Hasil digunakan untuk skrining awal, bukan diagnosis medis.
+
+2. GSE (General Self-Efficacy Scale)
+Tujuan:
+Mengukur keyakinan diri seseorang dalam mengatasi berbagai situasi dan tantangan. Cocok untuk mengevaluasi kepercayaan diri umum, bukan keterampilan spesifik.
+
+Format:
+
+10 item
+
+Skala Likert 1–4 (Sangat Tidak Benar – Sangat Benar)
+
+Interpretasi:
+Skor total yang lebih tinggi menunjukkan keyakinan diri yang lebih kuat.
+Kategori umum: rendah, sedang, tinggi.
+
+3. MHKQ (Mental Health Knowledge Questionnaire)
+Tujuan:
+Menilai tingkat pengetahuan kesehatan mental individu, termasuk pemahaman tentang gejala, perawatan, dan sikap terhadap gangguan mental.
+
+Format:
+
+Pertanyaan benar/salah
+
+Topik: stigma, gejala, perawatan, pencegahan
+
+Interpretasi:
+Skor adalah jumlah jawaban benar dibanding total pertanyaan. Skor tinggi menunjukkan pengetahuan kesehatan mental yang lebih baik.
+
+4. MSCS (Multidimensional Scale of Perceived Social Support)
+Tujuan:
+Mengukur persepsi individu terhadap dukungan sosial yang ia terima dari tiga sumber utama: keluarga, teman, dan pasangan/figur signifikan.
+
+Format:
+
+12 item
+
+Skala Likert 1–7 (Sangat Tidak Setuju – Sangat Setuju)
+
+3 domain:
+
+Keluarga
+
+Teman
+
+Significant Other
+
+Interpretasi:
+Skor tiap domain dan total menggambarkan tingkat dukungan sosial yang dirasakan. Skor tinggi berarti dukungan sosial yang lebih kuat.
+
+5. PDD (Perceived Devaluation-Discrimination Scale)
+Tujuan:
+Mengukur sejauh mana seseorang merasa dirinya atau orang lain yang memiliki masalah kesehatan mental dianggap rendah atau didiskriminasi oleh masyarakat.
+
+Format:
+
+12–15 item (versi standar WHO / Kemenkes)
+
+Skala Likert 1–5 (Sangat Tidak Setuju – Sangat Setuju)
+
+Beberapa item perlu reverse scoring untuk butir positif
+
+Interpretasi:
+Skor tinggi mengindikasikan persepsi stigma yang lebih kuat. Digunakan untuk memahami hambatan sosial dalam pencarian bantuan.
+
+----------
+Design Vision
+Inspiration: Modern mental health apps with Islamic-friendly aesthetics
+Colors: Calming teals, soft blues, warm greens with professional accents
+Style: Clean cards, gentle gradients, subtle animations
+Typography: Clear, readable fonts optimized for mobile
+----------------
+- pastikan semua halaman edukasi, history, profil berjalan sempurna
+- pastikan semua form assessment berjalan dengan sempurna
+- pastikan hasil assessment dapat disimpan pada database
+- tambah halaman video playlist video youtube beberapa video dibawah ini :
+Seri 3 Manajemen Stres Dalam Mencegah Pernikahan Muda Melalui Budaya Lokal
+https://youtu.be/_22feazq014
+
+Seri 1 Kesakralan dan Filosofi Pernikahan
+https://youtu.be/rGYAoVZxau4
+
+Eps 3 Dokter Medis
+https://youtu.be/GCN6d7A-yyk
+
+Seri 4 Manajemen Beban Dalam Pencegahan Pernikahan Muda Melalui Budaya Lokal
+https://youtu.be/NCIZJWA-_Cw
+
+Eps 2 orang tuaEpisode 2
+https://youtu.be/btSo9R8vGH0
+
+Cara Santri Cari Bantuan Kesehatan Jiwa
+https://youtu.be/X9tNDlCdttw
+
+Seri 2 Perawatan Dan Pencegahan Pernikahan Muda
+https://www.youtube.com/watch?v=LJ3aJNA9ABs
+
+-------------------
+
+Modern Navigation System
+Enhanced mobile-first navigation with improved accessibility, better visual hierarchy, and modern interaction patterns
+Buatlah UI/UX aplikasi ini yang modern dan inovatif dengan mengimplementasikan semua peningkatan berikut:
+1. Sistem Navigasi Modern
+Implementasikan navigasi mobile-first dengan aksesibilitas yang ditingkatkan
+Buat hierarki visual yang jelas dan pola interaksi modern
+Pastikan navigasi intuitif dan mudah digunakan di semua perangkat
+2. Hero Section
+Ciptakan hero section yang menakjubkan dengan efek glassmorphism
+Tingkatkan hierarki tipografi untuk keterbacaan optimal
+Tambahkan elemen visual yang menarik perhatian pengguna
+3. Modernisasi Assessment Cards
+Desain ulang kartu penilaian dengan hierarki visual yang lebih baik
+Implementasikan indikator progres yang jelas dan informatif
+Tingkatkan pengalaman pengguna dengan interaksi yang mulus
+4. Features Section
+Tampilkan fitur dengan layout kartu modern yang menarik
+Tambahkan efek hover yang elegan dan fungsional
+Organisasikan konten dengan struktur yang logis dan mudah dipahami
+5. Education Section
+Sajikan konten edukasi dengan kartu media modern
+Pastikan aksesibilitas optimal untuk semua pengguna
+Gunakan visualisasi yang mendukung pemahaman materi
+6. Desain Responsif Mobile-First
+Kembangkan sistem desain responsif yang komprehensif dengan pendekatan mobile-first
+Perbesar area sentuh (touch targets) untuk interaksi yang lebih mudah
+Dukung gestur modern untuk navigasi yang intuitif
+FITUR SPESIFIK YANG HARUS DIIMPLEMENTASIKAN
+Interaksi & Animasi
+Mikro-interaksi yang halus di seluruh antarmuka
+Efek hover yang memberikan feedback visual yang jelas
+Animasi transisi yang meningkatkan pengalaman pengguna tanpa mengganggu
+Navigasi Mobile-First
+Navigasi mobile yang ditingkatkan dengan area sentuh yang optimal
+Dukungan gestur yang lengkap untuk perangkat sentuh
+Tipografi Modern
+Hierarki tipografi yang ditingkatkan dengan bobot font, ukuran, dan spasi yang optimal
+Pastikan keterbacaan di semua ukuran layar
+Layout Kartu Responsif
+Desain kartu modern dengan hierarki visual yang jelas
+Perilaku responsif yang adaptif untuk berbagai ukuran layar
+Visualisasi Progres
+Indikator progres yang ditingkatkan untuk penilaian
+Visualisasi status yang informatif dan mudah dipahami
+Peningkatan Aksesibilitas
+Kontras warna yang optimal untuk keterbacaan
+Status fokus yang jelas untuk navigasi keyboard
+Dukungan screen reader yang komprehensif
+Dukungan Dark Mode
+Implementasi dark mode yang sempurna dengan skema warna yang konsisten
+Pastikan keterbacaan dan kenyamanan mata dalam mode gelap
+STANDAR YANG HARUS DIIKUTI
+Ikuti prinsip-prinsip desain Material Design atau Human Interface Guidelines
+Pastikan kecepatan loading optimal dengan performa terbaik
+Implementasikan semantic HTML untuk aksesibilitas maksimal
+Uji desain dengan berbagai pengguna untuk memastikan usability
+Validasi desain terhadap standar aksesibilitas WCAG 2.1 Level AA
+Hasil akhir harus berupa desain UI/UX yang modern, inovatif, dan sepenuhnya fungsional yang memberikan pengalaman pengguna yang luar biasa di semua perangkat dan kondisi penggunaan.
+
+------------------------
+
+- pada menu edukasi tambahkan top pop up, seperti drop down tapi ke arah atas, untuk menambahkan menu video dan material pdf download
+- video dapat di jalankan pada modal atau "lihat di youtube" dengan tombol yang ekspresif dan eye catching
+- pastikan form assessment DASS-42, PDD, MHKQ, MSCS, GSE bekerja sempurna dan dapat disimpan pada database sqlite atau supabase
+- tampilkan logo apllikasi pada beranda, buat hero yang intuitive, ekspresif dan berdampak
+- ini adalah logo
+---------------
+- tambahkan tombol exit, atas simpan progress dan simpan progress pada setiap form assessment. database disimpan pada sqlite database agar nantinya bisa di sync dengan database MySQL atau PostgreSQL disaat memungkinkan
+- pastikan semua form assessment berjalan dengan sempurna
+- pastikan hasil assessment dapat disimpan pada database
+
