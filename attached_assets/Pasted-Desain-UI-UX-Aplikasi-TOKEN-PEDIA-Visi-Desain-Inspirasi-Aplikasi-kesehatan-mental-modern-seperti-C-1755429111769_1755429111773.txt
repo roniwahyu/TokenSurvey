@@ -1,0 +1,48 @@
+Desain UI/UX Aplikasi TOKEN PEDIA
+Visi Desain
+
+Inspirasi: Aplikasi kesehatan mental modern seperti Calm, Headspace, dengan sentuhan estetika Islami (misalnya, subtil geometric patterns, soft gradients).
+Warna:
+
+Primary: Teal (#00BFA5), Soft Blue (#2196F3), Warm Green (#4CAF50).
+Accent: Professional Grey (#757575) untuk light mode, Dark Grey (#121212) untuk dark mode.
+Gradients: Teal-to-Blue (opacity 0.8) untuk glassmorphism.
+
+
+Tipografi:
+
+Headings: Poppins (Bold, 24-32px untuk H1, 18-24px untuk H2).
+Body: Roboto (Regular, 14-16px, line-height 1.5x, letter-spacing 0.5px).
+
+
+Animasi:
+
+Micro-interactions: Scale-up (1.05x) pada tap, fade-in (300ms) untuk cards.
+Transitions: Slide/fade antar screen, ripple effect untuk buttons.
+
+
+Aksesibilitas: Kontras warna 4.5:1, focus states jelas, ARIA labels untuk screen reader.
+
+Struktur Aplikasi
+Aplikasi menggunakan bottom navigation bar (mobile-first) dengan 5 tab: Home, Assessments, Education, History, Profile. Setiap halaman dioptimalkan untuk layar kecil (mobile) dengan breakpoints responsif untuk tablet.
+
+1. Beranda (Home Screen)
+Deskripsi Fitur & UI
+
+Hero Section:
+
+Layout: Full-width dengan glassmorphism overlay (backdrop-filter: blur(10px)). Background gradient dari Teal (#00BFA5) ke Soft Blue (#2196F3) dengan pola geometris Islami subtil (misalnya, interlocking hexagons, opacity 0.2).
+Logo: Asumsi logo adalah ikon buku terbuka dengan aksen hijau dan putih, ditempatkan center-top (128x128px, shadow subtle).
+Teks: H1 "Selamat Datang di TOKEN PEDIA" (Poppins Bold, 28px, white), subteks "Jaga Kesehatan Mentalmu sebagai Santri" (Roboto Regular, 16px, white). Teks berada di dalam card glassmorphism (rounded corners 16px, border 1px white opacity 0.2).
+CTA: Button "Mulai Assessment" (teal background, rounded 12px, Poppins SemiBold 16px, white text). Animasi: Scale-up 1.05x on press, ripple effect.
+Visual Effect: Subtle particle animation (bintang hijau kecil bergerak perlahan di background).
+
+
+Features Section:
+
+Layout: Horizontal scrollable cards (150x200px each, margin 8px, rounded 16px, shadow elevation 4).
+Konten: 5 cards (Assessments, Education, History, Profile, Tips Harian). Setiap card: Ikon (Material Icons, 24px, teal), judul (Poppins SemiBold, 16px), deskripsi singkat (Roboto Regular, 12px).
+Interaksi: Tap untuk navigasi ke halaman terkait, hover effect (lift-up 4px, shadow lebih kuat).
+
+
+Aksesibilitas: ARIA label untuk logo ("Logo TOKEN PEDIA"), focus state jelas pada CTA (blue outline 2px).
