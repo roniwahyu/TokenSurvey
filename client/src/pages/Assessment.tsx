@@ -217,7 +217,7 @@ export default function Assessment() {
                 Pilih salah satu assessment untuk memulai evaluasi kesehatan mental Anda.
               </p>
             </div>
-            
+
             {/* History Shortcut */}
             <Button
               onClick={() => setLocation("/profile")}
@@ -229,7 +229,7 @@ export default function Assessment() {
               <span className="hidden sm:inline">Riwayat</span>
             </Button>
           </div>
-          
+
           {/* Quick Stats */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 p-4 rounded-xl border border-green-200 dark:border-green-700">
@@ -243,7 +243,7 @@ export default function Assessment() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900 dark:to-cyan-900 p-4 rounded-xl border border-blue-200 dark:border-blue-700">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center">
