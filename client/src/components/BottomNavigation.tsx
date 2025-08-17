@@ -6,7 +6,6 @@ const navItems = [
   { id: "home", path: "/", icon: Home, label: "Beranda" },
   { id: "assessment", path: "/assessment", icon: ClipboardList, label: "Assessment" },
   { id: "education", path: "/education", icon: GraduationCap, label: "Edukasi" },
-  { id: "history", path: "/history", icon: BarChart3, label: "Riwayat" },
   { id: "profile", path: "/profile", icon: User, label: "Profil" },
 ];
 

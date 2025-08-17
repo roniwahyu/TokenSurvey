@@ -158,14 +158,14 @@ export default function Home() {
                   </Button>
 
                   <Button
-                    onClick={() => setLocation("/history")}
+                    onClick={() => setLocation("/profile")}
                     variant="outline"
                     className="glassmorphism-card text-white hover:bg-white/25 px-6 py-4 rounded-xl font-semibold scale-on-tap transition-all duration-300"
                     style={{ fontFamily: 'Poppins', fontWeight: '500' }}
-                    data-testid="history-hero"
+                    data-testid="profile-hero"
                   >
-                    <BarChart3 className="mr-2" size={20} />
-                    Riwayat
+                    <User className="mr-2" size={20} />
+                    Profil
                   </Button>
                 </div>
               </div>

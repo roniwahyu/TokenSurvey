@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useRoute } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, X, History, Clock } from "lucide-react";
+import { ChevronLeft, X, History, Clock, BarChart3 } from "lucide-react";
 import AssessmentForm from "@/components/AssessmentForm";
 import ExitModal from "@/components/ExitModal";
 import { assessmentTypes, getAssessmentById, calculateScore } from "@/lib/assessmentData";
@@ -226,15 +226,15 @@ export default function Assessment() {
               </p>
             </div>
 
-            {/* History Shortcut */}
+            {/* History Submenu Button */}
             <Button
               onClick={() => setLocation("/history")}
               variant="outline"
               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800 dark:hover:to-indigo-800 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
-              data-testid="history-shortcut"
+              data-testid="history-submenu"
             >
-              <History size={18} />
-              <span className="hidden sm:inline">Riwayat</span>
+              <BarChart3 size={18} />
+              <span className="hidden sm:inline">Riwayat Assessment</span>
             </Button>
           </div>
 
@@ -252,19 +252,22 @@ export default function Assessment() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900 dark:to-cyan-900 p-4 rounded-xl border border-blue-200 dark:border-blue-700">
-              <div className="flex items-center gap-3">
+            <Button
+              onClick={() => setLocation("/history")}
+              className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900 dark:to-cyan-900 p-4 rounded-xl border border-blue-200 dark:border-blue-700 hover:from-blue-100 hover:to-cyan-100 dark:hover:from-blue-800 dark:hover:to-cyan-800 transition-all duration-300 w-full h-auto"
+            >
+              <div className="flex items-center gap-3 w-full">
                 <div className="w-10 h-10 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center">
-                  <History className="text-blue-600 dark:text-blue-400" size={20} />
+                  <BarChart3 className="text-blue-600 dark:text-blue-400" size={20} />
                 </div>
-                <div>
-                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">Sudah Selesai</div>
+                <div className="text-left">
+                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">Lihat Riwayat</div>
                   <div className="text-lg font-bold text-blue-700 dark:text-blue-300">
-                    {existingAssessments?.filter((a: any) => a.isCompleted).length || 0}
+                    {existingAssessments?.filter((a: any) => a.isCompleted).length || 0} Selesai
                   </div>
                 </div>
               </div>
-            </div>
+            </Button>
           </div>
         </div>
 
