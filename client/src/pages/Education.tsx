@@ -11,7 +11,7 @@ import {
   History,
   Search,
   BookOpen,
-  Bookmarked
+  Bookmark
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import VideoCard from "@/components/VideoCard";
@@ -96,7 +96,7 @@ export default function Education() {
 
   return (
     <div className="font-impresif min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-black text-gray-900 dark:text-white">
-      
+
       {/* Education Header with Popup Menu */}
       <div className="px-4 py-8">
         <div className="mb-12 relative">
@@ -311,7 +311,7 @@ export default function Education() {
                         className="rounded-lg px-5 py-3 shadow-md bg-gradient-to-r from-purple-400 to-indigo-500 hover:from-purple-500 hover:to-indigo-600 text-white font-semibold transition duration-300"
                         data-testid={`read-online-${material.id}`}
                       >
-                        <Bookmarked size={20} className="mr-2" /> Baca Online
+                        <Bookmark size={20} className="mr-2" /> Baca Online
                       </Button>
                        <Button 
                         variant="outline"
@@ -404,7 +404,7 @@ export default function Education() {
             </div>
           </div>
         )}
-        
+
         {/* History Assessment Shortcut */}
         {activeSection === "assessments" && (
           <Button
