@@ -4,6 +4,7 @@ export interface MaterialData {
   size: string;
   type: string;
   downloadUrl: string;
+  url?: string;
   description?: string;
   category?: string;
 }
@@ -14,7 +15,7 @@ export const educationalMaterials: MaterialData[] = [
     title: "Panduan Kesehatan Mental untuk Santri",
     size: "2.4 MB",
     type: "PDF",
-    downloadUrl: "#", // In real implementation, this would be actual download URLs
+    downloadUrl: "https://example.com/panduan-kesehatan-mental-santri.pdf",
     description: "Panduan lengkap tentang menjaga kesehatan mental dalam lingkungan pesantren",
     category: "guide"
   },
