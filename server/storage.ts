@@ -1,3 +1,4 @@
+
 import {
   users,
   assessments,
@@ -11,80 +12,49 @@ import {
   type AssessmentResult,
   type InsertAssessmentResult,
   type UserProgress,
-} from "@shared/schema";
-import { db } from "./db";
+} from "../shared/schema.js";
+import { db } from "./db.js";
 import { eq, and, desc, sql } from "drizzle-orm";
+import { randomUUID } from "crypto";
 
-export interface IStorage {
+class DatabaseStorage {
   // User operations
-  getUser(id: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  getUserByEmail(email: string): Promise<User | undefined>;
-  
-  // Assessment operations
-  getAssessment(id: string): Promise<Assessment | undefined>;
-  createAssessment(assessment: InsertAssessment): Promise<Assessment>;
-  updateAssessment(id: string, data: Partial<Assessment>): Promise<Assessment>;
-  getUserAssessments(userId: string): Promise<Assessment[]>;
-  getAssessmentsByType(userId: string, type: string): Promise<Assessment[]>;
-  
-  // Assessment results operations
-  createAssessmentResult(result: InsertAssessmentResult): Promise<AssessmentResult>;
-  getAssessmentResult(assessmentId: string): Promise<AssessmentResult | undefined>;
-  getUserAssessmentResults(userId: string): Promise<AssessmentResult[]>;
-  
-  // User progress operations
-  getUserProgress(userId: string): Promise<UserProgress | undefined>;
-  updateUserProgress(userId: string, data: Partial<UserProgress>): Promise<UserProgress>;
-  
-  // Assessment session operations for auto-save
-  saveAssessmentSession(userId: string, sessionData: any): Promise<any>;
-  getAssessmentSession(userId: string, assessmentType: string): Promise<any>;
-  completeAssessmentSession(userId: string, assessmentType: string): Promise<void>;
-  incrementSessionExit(userId: string, assessmentType: string): Promise<void>;
-}
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values({
+      ...insertUser,
+      id: insertUser.id || randomUUID()
+    }).returning();
+    return user;
+  }
 
-export class DatabaseStorage implements IStorage {
-  // User operations
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    
-    // Create initial user progress
-    await db.insert(userProgress).values({
-      userId: user.id,
-      assessmentsCompleted: 0,
-      assessmentsInProgress: 0,
-      videosWatched: 0,
-      streakDays: 0,
-    });
-    
-    return user;
-  }
-
-  async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
+  async updateUser(id: string, data: Partial<User>): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
     return user;
   }
 
   // Assessment operations
-  async getAssessment(id: string): Promise<Assessment | undefined> {
-    const [assessment] = await db.select().from(assessments).where(eq(assessments.id, id));
-    return assessment;
-  }
-
   async createAssessment(insertAssessment: InsertAssessment): Promise<Assessment> {
     const [assessment] = await db.insert(assessments).values({
       ...insertAssessment,
-      currentQuestion: 0,
-      progress: 0,
-      isCompleted: false,
-      results: null
+      id: randomUUID()
     }).returning();
+    return assessment;
+  }
+
+  async getAssessment(id: string): Promise<Assessment | undefined> {
+    const [assessment] = await db
+      .select()
+      .from(assessments)
+      .where(eq(assessments.id, id));
     return assessment;
   }
 
@@ -115,7 +85,10 @@ export class DatabaseStorage implements IStorage {
 
   // Assessment results operations
   async createAssessmentResult(insertResult: InsertAssessmentResult): Promise<AssessmentResult> {
-    const [result] = await db.insert(assessmentResults).values(insertResult).returning();
+    const [result] = await db.insert(assessmentResults).values({
+      ...insertResult,
+      id: randomUUID()
+    }).returning();
     return result;
   }
 
@@ -145,12 +118,28 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUserProgress(userId: string, data: Partial<UserProgress>): Promise<UserProgress> {
-    const [progress] = await db
-      .update(userProgress)
-      .set({ ...data, updatedAt: new Date() })
-      .where(eq(userProgress.userId, userId))
-      .returning();
-    return progress;
+    // First try to update existing record
+    const existing = await this.getUserProgress(userId);
+    
+    if (existing) {
+      const [progress] = await db
+        .update(userProgress)
+        .set({ ...data, updatedAt: new Date() })
+        .where(eq(userProgress.userId, userId))
+        .returning();
+      return progress;
+    } else {
+      // Create new progress record if it doesn't exist
+      const [progress] = await db
+        .insert(userProgress)
+        .values({ 
+          id: randomUUID(),
+          userId, 
+          ...data 
+        })
+        .returning();
+      return progress;
+    }
   }
 
   // Assessment session management for auto-save functionality
@@ -161,25 +150,39 @@ export class DatabaseStorage implements IStorage {
     answers: { [key: string]: number | boolean };
     sessionData?: { [key: string]: any };
   }): Promise<any> {
-    const [session] = await db
-      .insert(assessmentSessions)
-      .values({
-        userId,
-        ...sessionData,
-        lastSavedAt: new Date(),
-      })
-      .onConflictDoUpdate({
-        target: [assessmentSessions.userId, assessmentSessions.assessmentType],
-        set: {
+    // Check if session exists
+    const existing = await this.getAssessmentSession(userId, sessionData.assessmentType);
+    
+    if (existing) {
+      // Update existing session
+      const [session] = await db
+        .update(assessmentSessions)
+        .set({
           currentQuestion: sessionData.currentQuestion,
           totalQuestions: sessionData.totalQuestions,
           answers: sessionData.answers,
           sessionData: sessionData.sessionData || {},
           lastSavedAt: new Date(),
-        },
-      })
-      .returning();
-    return session;
+        })
+        .where(and(
+          eq(assessmentSessions.userId, userId),
+          eq(assessmentSessions.assessmentType, sessionData.assessmentType)
+        ))
+        .returning();
+      return session;
+    } else {
+      // Create new session
+      const [session] = await db
+        .insert(assessmentSessions)
+        .values({
+          id: randomUUID(),
+          userId,
+          ...sessionData,
+          lastSavedAt: new Date(),
+        })
+        .returning();
+      return session;
+    }
   }
 
   async getAssessmentSession(userId: string, assessmentType: string): Promise<any> {
@@ -211,8 +214,8 @@ export class DatabaseStorage implements IStorage {
       );
   }
 
-  async incrementSessionExit(userId: string, assessmentType: string): Promise<void> {
-    await db
+  async incrementSessionExit(userId: string, assessmentType: string): Promise<any> {
+    const [session] = await db
       .update(assessmentSessions)
       .set({
         exitCount: sql`${assessmentSessions.exitCount} + 1`,
@@ -223,7 +226,9 @@ export class DatabaseStorage implements IStorage {
           eq(assessmentSessions.userId, userId),
           eq(assessmentSessions.assessmentType, assessmentType)
         )
-      );
+      )
+      .returning();
+    return session;
   }
 }
 

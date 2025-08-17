@@ -4,7 +4,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  id: varchar("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").unique(),
   pesantren: text("pesantren"),
@@ -13,7 +13,7 @@ export const users = pgTable("users", {
 });
 
 export const assessments = pgTable("assessments", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  id: varchar("id").primaryKey(),
   userId: varchar("user_id").references(() => users.id),
   type: varchar("type").notNull(), // 'dass42', 'gse', 'mhkq', 'mscs', 'pdd'
   title: text("title").notNull(),
@@ -27,7 +27,7 @@ export const assessments = pgTable("assessments", {
 });
 
 export const assessmentResults = pgTable("assessment_results", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  id: varchar("id").primaryKey(),
   assessmentId: varchar("assessment_id").references(() => assessments.id),
   userId: varchar("user_id").references(() => users.id),
   type: varchar("type").notNull(),
@@ -38,7 +38,7 @@ export const assessmentResults = pgTable("assessment_results", {
 });
 
 export const userProgress = pgTable("user_progress", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  id: varchar("id").primaryKey(),
   userId: varchar("user_id").references(() => users.id),
   assessmentsCompleted: integer("assessments_completed").default(0),
   assessmentsInProgress: integer("assessments_in_progress").default(0),
@@ -53,7 +53,7 @@ export const userProgress = pgTable("user_progress", {
 
 // Assessment session tracking for auto-save functionality
 export const assessmentSessions = pgTable("assessment_sessions", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  id: varchar("id").primaryKey(),
   userId: varchar("user_id").references(() => users.id),
   assessmentType: varchar("assessment_type").notNull(), // DASS-42, PDD, MHKQ, MSCS, GSE
   currentQuestion: integer("current_question").default(0),
