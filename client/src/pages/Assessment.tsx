@@ -14,6 +14,14 @@ import { calculateAssessmentScore } from "@/lib/assessmentLogic";
 // Mock user ID for demo purposes
 const MOCK_USER_ID = "demo-user";
 
+// Mock function for saveResultsMutation
+const saveResultsMutation = {
+  isLoading: false,
+  mutate: (data: any) => {
+    console.log("Saving results:", data);
+  }
+};
+
 export default function Assessment() {
   const [location, setLocation] = useLocation();
   const [match, params] = useRoute("/assessment/:id");

@@ -11,59 +11,47 @@ export default function Layout({ children }: LayoutProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Header Navigation */}
-      <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="px-4 py-3">
+    <div className="font-impresif min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-900 dark:text-white">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo & Title */}
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <Brain className="text-white text-sm" size={16} />
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-xl flex items-center justify-center">
+                <Brain className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                   TOKEN PEDIA
                 </h1>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Mental Health for Santri
-                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Mental Health Platform</p>
               </div>
             </div>
 
-            {/* Header Actions */}
-            <div className="flex items-center space-x-3">
-              {/* Dark Mode Toggle */}
+            <div className="flex items-center space-x-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
-                data-testid="toggle-theme"
+                className="w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
               >
-                {theme === "light" ? (
-                  <Moon className="h-4 w-4" />
+                {theme === "dark" ? (
+                  <Sun className="w-5 h-5" />
                 ) : (
-                  <Sun className="h-4 w-4" />
+                  <Moon className="w-5 h-5" />
                 )}
               </Button>
 
-              {/* Profile */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-8 h-8 bg-primary rounded-full flex items-center justify-center"
-                data-testid="profile-button"
-              >
-                <User className="text-white text-xs" size={12} />
+              <Button variant="ghost" size="sm" className="w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95">
+                <User className="w-5 h-5" />
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-16">
+      {/* Main Content with bottom padding for fixed nav */}
+      <main className="container mx-auto px-4 py-6 pb-24">
         {children}
       </main>
 

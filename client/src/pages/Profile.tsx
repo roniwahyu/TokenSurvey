@@ -143,7 +143,7 @@ export default function Profile() {
       icon: <HelpCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
       title: "Bantuan & Dukungan",
       subtitle: "FAQ dan kontak dukungan",
-      onClick: () => console.log("Help clicked"),
+      onClick: () => console.log("Help & Support clicked"),
     },
   ];
 
