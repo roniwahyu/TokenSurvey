@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,8 +14,7 @@ import {
   CheckCircle,
   Info,
   Settings,
-  Trash2,
-  MarkAsRead
+  Trash2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
@@ -264,7 +262,7 @@ export default function Notifications() {
               className="flex-1 touch-target"
               disabled={unreadCount === 0}
             >
-              <MarkAsRead className="mr-2" size={16} />
+              <CheckCircle className="mr-2" size={16} />
               Tandai Semua Dibaca
             </Button>
             <Button
