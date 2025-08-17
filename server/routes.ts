@@ -1,15 +1,35 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { insertUserSchema, insertAssessmentSchema, insertAssessmentResultSchema } from "@shared/schema";
-import { z } from "zod";
+import { db } from "@/server/db";
+import {
+  users,
+  assessments,
+  assessmentResults,
+  insertUserSchema,
+  insertAssessmentSchema,
+  insertAssessmentResultSchema
+} from "@shared/schema";
+import { eq, and, desc } from "drizzle-orm";
+
+// Database connection helper with error handling
+async function safeDbQuery<T>(operation: () => Promise<T>): Promise<T | null> {
+  try {
+    return await operation();
+  } catch (error) {
+    console.error('Database operation failed:', error);
+    return null;
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User routes
   app.post("/api/users", async (req, res) => {
     try {
       const userData = insertUserSchema.parse(req.body);
-      const user = await storage.createUser(userData);
+      const user = await safeDbQuery(() => storage.createUser(userData));
+      if (!user) {
+        return res.status(500).json({ message: "Failed to create user" });
+      }
       res.json(user);
     } catch (error) {
       console.error("Error creating user:", error);
@@ -17,40 +37,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get user by ID
   app.get("/api/users/:id", async (req, res) => {
     try {
-      const user = await storage.getUser(req.params.id);
-      if (!user) {
+      const { id } = req.params;
+      const user = await safeDbQuery(() =>
+        db.select().from(users).where(eq(users.id, parseInt(id)))
+      );
+
+      if (!user || user.length === 0) {
         return res.status(404).json({ message: "User not found" });
       }
-      res.json(user);
+
+      res.json(user[0]);
     } catch (error) {
-      console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
     }
   });
 
+  // Get user progress
   app.get("/api/users/:id/progress", async (req, res) => {
     try {
-      const progress = await storage.getUserProgress(req.params.id);
-      if (!progress) {
-        return res.status(404).json({ message: "User progress not found" });
-      }
-      res.json(progress);
+      const { id } = req.params;
+
+      // Get completed assessments count
+      const completedAssessments = await safeDbQuery(() =>
+        db.select()
+          .from(assessmentResults)
+          .where(and(
+            eq(assessmentResults.userId, parseInt(id)),
+            eq(assessmentResults.isCompleted, true)
+          ))
+      );
+
+      // Get in-progress assessments count
+      const progressAssessments = await safeDbQuery(() =>
+        db.select()
+          .from(assessments)
+          .where(and(
+            eq(assessments.userId, parseInt(id)),
+            eq(assessments.isCompleted, false)
+          ))
+      );
+
+      res.json({
+        assessmentsCompleted: completedAssessments?.length || 0,
+        assessmentsInProgress: progressAssessments?.length || 0,
+        videosWatched: 0 // This would come from a videos watched table
+      });
     } catch (error) {
-      console.error("Error fetching user progress:", error);
       res.status(500).json({ message: "Failed to fetch user progress" });
+    }
+  });
+
+  // Get user assessments
+  app.get("/api/users/:id/assessments", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userAssessments = await safeDbQuery(() =>
+        db.select()
+          .from(assessments)
+          .where(eq(assessments.userId, parseInt(id)))
+          .orderBy(desc(assessments.createdAt))
+      );
+
+      res.json(userAssessments || []);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch assessments" });
     }
   });
 
   // Assessment routes
   app.get("/api/assessments/:id", async (req, res) => {
     try {
-      const assessment = await storage.getAssessment(req.params.id);
-      if (!assessment) {
+      const { id } = req.params;
+      const assessment = await safeDbQuery(() =>
+        db.select().from(assessments).where(eq(assessments.id, parseInt(id)))
+      );
+
+      if (!assessment || assessment.length === 0) {
         return res.status(404).json({ message: "Assessment not found" });
       }
-      res.json(assessment);
+      res.json(assessment[0]);
     } catch (error) {
       console.error("Error fetching assessment:", error);
       res.status(500).json({ message: "Failed to fetch assessment" });
@@ -60,7 +128,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/assessments", async (req, res) => {
     try {
       const assessmentData = insertAssessmentSchema.parse(req.body);
-      const assessment = await storage.createAssessment(assessmentData);
+      const assessment = await safeDbQuery(() => storage.createAssessment(assessmentData));
+      if (!assessment) {
+        return res.status(500).json({ message: "Failed to create assessment" });
+      }
       res.json(assessment);
     } catch (error) {
       console.error("Error creating assessment:", error);
@@ -71,13 +142,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/assessments/:id", async (req, res) => {
     try {
       const { questions, currentQuestion, progress, isCompleted, results } = req.body;
-      const assessment = await storage.updateAssessment(req.params.id, {
+      const assessment = await safeDbQuery(() => storage.updateAssessment(req.params.id, {
         questions,
         currentQuestion,
         progress,
         isCompleted,
         results,
-      });
+      }));
+      if (!assessment) {
+        return res.status(500).json({ message: "Failed to update assessment" });
+      }
       res.json(assessment);
     } catch (error) {
       console.error("Error updating assessment:", error);
@@ -85,41 +159,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/users/:userId/assessments", async (req, res) => {
-    try {
-      const { type } = req.query;
-      let assessments;
-      
-      if (type) {
-        assessments = await storage.getAssessmentsByType(req.params.userId, type as string);
-      } else {
-        assessments = await storage.getUserAssessments(req.params.userId);
-      }
-      
-      res.json(assessments);
-    } catch (error) {
-      console.error("Error fetching user assessments:", error);
-      res.status(500).json({ message: "Failed to fetch assessments" });
-    }
-  });
-
   // Assessment results routes
   app.post("/api/assessment-results", async (req, res) => {
     try {
       const resultData = insertAssessmentResultSchema.parse(req.body);
-      const result = await storage.createAssessmentResult(resultData);
-      
+      const result = await safeDbQuery(() => storage.createAssessmentResult(resultData));
+      if (!result) {
+        return res.status(500).json({ message: "Failed to create assessment result" });
+      }
+
       // Update user progress
       if (resultData.userId) {
-        const progress = await storage.getUserProgress(resultData.userId);
-        if (progress) {
-          await storage.updateUserProgress(resultData.userId, {
-            assessmentsCompleted: (progress.assessmentsCompleted || 0) + 1,
-            assessmentsInProgress: Math.max(0, (progress.assessmentsInProgress || 0) - 1),
-          });
+        const currentProgress = await safeDbQuery(() => storage.getUserProgress(resultData.userId));
+        if (currentProgress) {
+          await safeDbQuery(() => storage.updateUserProgress(resultData.userId, {
+            assessmentsCompleted: (currentProgress.assessmentsCompleted || 0) + 1,
+            assessmentsInProgress: Math.max(0, (currentProgress.assessmentsInProgress || 0) - 1),
+          }));
         }
       }
-      
+
       res.json(result);
     } catch (error) {
       console.error("Error creating assessment result:", error);
@@ -129,8 +188,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/users/:userId/results", async (req, res) => {
     try {
-      const results = await storage.getUserAssessmentResults(req.params.userId);
-      res.json(results);
+      const { userId } = req.params;
+      const results = await safeDbQuery(() => storage.getUserAssessmentResults(userId));
+      res.json(results || []);
     } catch (error) {
       console.error("Error fetching user results:", error);
       res.status(500).json({ message: "Failed to fetch results" });
@@ -148,31 +208,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const result = calculateAssessmentScore(type, answers);
 
       // Save assessment result
-      const assessmentResult = await storage.createAssessmentResult({
+      const assessmentResult = await safeDbQuery(() => storage.createAssessmentResult({
         assessmentId,
         userId,
         type,
         scores: result.subscales || { total: result.totalScore },
         categories: { severity: result.severity },
         interpretation: result.interpretation
-      });
+      }));
+      if (!assessmentResult) {
+        return res.status(500).json({ message: "Failed to save assessment result" });
+      }
 
       // Update assessment as completed
-      await storage.updateAssessment(assessmentId, {
+      await safeDbQuery(() => storage.updateAssessment(assessmentId, {
         isCompleted: true,
         results: result,
         progress: 100
-      });
+      }));
 
       // Complete assessment session
-      await storage.completeAssessmentSession(userId, type);
+      await safeDbQuery(() => storage.completeAssessmentSession(userId, type));
 
       // Update user progress
-      const currentProgress = await storage.getUserProgress(userId);
-      await storage.updateUserProgress(userId, {
+      const currentProgress = await safeDbQuery(() => storage.getUserProgress(userId));
+      await safeDbQuery(() => storage.updateUserProgress(userId, {
         assessmentsCompleted: (currentProgress?.assessmentsCompleted || 0) + 1,
         assessmentsInProgress: Math.max((currentProgress?.assessmentsInProgress || 1) - 1, 0)
-      });
+      }));
 
       res.json({
         success: true,
@@ -187,7 +250,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/assessment-results/:assessmentId", async (req, res) => {
     try {
-      const result = await storage.getAssessmentResult(req.params.assessmentId);
+      const { assessmentId } = req.params;
+      const result = await safeDbQuery(() => storage.getAssessmentResult(assessmentId));
       if (!result) {
         return res.status(404).json({ message: "Assessment result not found" });
       }
@@ -201,13 +265,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Progress tracking
   app.put("/api/users/:userId/progress", async (req, res) => {
     try {
+      const { userId } = req.params;
       const { assessmentsInProgress, videosWatched, streakDays } = req.body;
-      const progress = await storage.updateUserProgress(req.params.userId, {
+      const progress = await safeDbQuery(() => storage.updateUserProgress(userId, {
         assessmentsInProgress,
         videosWatched,
         streakDays,
         lastActiveDate: new Date(),
-      });
+      }));
+      if (!progress) {
+        return res.status(500).json({ message: "Failed to update user progress" });
+      }
       res.json(progress);
     } catch (error) {
       console.error("Error updating user progress:", error);
@@ -220,7 +288,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { userId } = req.params;
       const sessionData = req.body;
-      const session = await storage.saveAssessmentSession(userId, sessionData);
+      const session = await safeDbQuery(() => storage.saveAssessmentSession(userId, sessionData));
+      if (!session) {
+        return res.status(500).json({ message: "Failed to save assessment session" });
+      }
       res.json(session);
     } catch (error) {
       console.error("Error saving assessment session:", error);
@@ -231,7 +302,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/users/:userId/assessment-sessions/:assessmentType", async (req, res) => {
     try {
       const { userId, assessmentType } = req.params;
-      const session = await storage.getAssessmentSession(userId, assessmentType);
+      const session = await safeDbQuery(() => storage.getAssessmentSession(userId, assessmentType));
       res.json(session || null);
     } catch (error) {
       console.error("Error fetching assessment session:", error);
@@ -242,7 +313,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/users/:userId/assessment-sessions/:assessmentType/exit", async (req, res) => {
     try {
       const { userId, assessmentType } = req.params;
-      await storage.incrementSessionExit(userId, assessmentType);
+      const updatedSession = await safeDbQuery(() => storage.incrementSessionExit(userId, assessmentType));
+      if (!updatedSession) {
+        return res.status(500).json({ message: "Failed to update exit count" });
+      }
       res.json({ success: true });
     } catch (error) {
       console.error("Error incrementing exit count:", error);
