@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useRoute } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, X } from "lucide-react";
+import { ChevronLeft, X, History, Clock } from "lucide-react";
 import AssessmentForm from "@/components/AssessmentForm";
 import ExitModal from "@/components/ExitModal";
 import { assessmentTypes, getAssessmentById, calculateScore } from "@/lib/assessmentData";
@@ -208,12 +208,56 @@ export default function Assessment() {
     return (
       <div className="px-4 py-6">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Pilih Assessment
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            Pilih salah satu assessment untuk memulai evaluasi kesehatan mental Anda.
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="heading-title text-2xl text-gray-900 dark:text-white mb-2">
+                Pilih Assessment
+              </h2>
+              <p className="body-text text-gray-600 dark:text-gray-400">
+                Pilih salah satu assessment untuk memulai evaluasi kesehatan mental Anda.
+              </p>
+            </div>
+            
+            {/* History Shortcut */}
+            <Button
+              onClick={() => setLocation("/profile")}
+              variant="outline"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800 dark:hover:to-indigo-800 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+              data-testid="history-shortcut"
+            >
+              <History size={18} />
+              <span className="hidden sm:inline">Riwayat</span>
+            </Button>
+          </div>
+          
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 p-4 rounded-xl border border-green-200 dark:border-green-700">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 dark:bg-green-800 rounded-lg flex items-center justify-center">
+                  <Clock className="text-green-600 dark:text-green-400" size={20} />
+                </div>
+                <div>
+                  <div className="text-sm text-green-600 dark:text-green-400 font-medium">Assessment Tersedia</div>
+                  <div className="text-lg font-bold text-green-700 dark:text-green-300">{assessmentTypes.length}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900 dark:to-cyan-900 p-4 rounded-xl border border-blue-200 dark:border-blue-700">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center">
+                  <History className="text-blue-600 dark:text-blue-400" size={20} />
+                </div>
+                <div>
+                  <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">Sudah Selesai</div>
+                  <div className="text-lg font-bold text-blue-700 dark:text-blue-300">
+                    {existingAssessments?.filter((a: any) => a.isCompleted).length || 0}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="space-y-4">

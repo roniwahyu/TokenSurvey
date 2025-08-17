@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Modern Typography System */
 
 @tailwind base;
 @tailwind components;
@@ -37,9 +37,11 @@
   --sidebar-accent-foreground: hsl(174 80% 39%);
   --sidebar-border: hsl(205.0000 25.0000% 90.5882%);
   --sidebar-ring: hsl(174 80% 39%);
-  --font-sans: 'Inter', 'Open Sans', sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: Menlo, monospace;
+  --font-sans: 'Plus Jakarta Sans', 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Poppins', 'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --radius: 1.3rem;
   
   /* Mental Health App Custom Colors */
@@ -124,7 +126,12 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply antialiased bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
   }
   
   html {
@@ -133,6 +140,47 @@
 }
 
 @layer components {
+  /* Enhanced Typography System */
+  .heading-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  
+  .heading-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  
+  .body-text {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+  
+  .text-contrast-high {
+    color: hsl(210 40% 8%);
+  }
+  
+  .dark .text-contrast-high {
+    color: hsl(0 0% 98%);
+  }
+  
+  /* Improved spacing system */
+  .spacing-section {
+    margin-bottom: 3rem;
+  }
+  
+  .spacing-content {
+    margin-bottom: 1.5rem;
+  }
+  
+  .spacing-element {
+    margin-bottom: 1rem;
+  }
   .glassmorphism {
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(10px);
