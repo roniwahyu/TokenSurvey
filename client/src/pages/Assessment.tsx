@@ -281,7 +281,7 @@ export default function Assessment() {
         onPrevQuestion={handlePrevQuestion}
         onSaveProgress={handleSaveProgress}
         onComplete={handleComplete}
-        isLoading={saveAssessmentMutation.isPending || saveResultsMutation.isPending}
+        isLoading={saveAssessmentMutation.isPending || completeAssessmentMutation.isPending}
       />
 
       {/* Exit Modal */}

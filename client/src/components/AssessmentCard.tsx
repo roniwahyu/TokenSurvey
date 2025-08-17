@@ -1,11 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { 
-  TrendingUp, 
-  Shield, 
-  BookOpen, 
-  Users, 
+import {
+  TrendingUp,
+  Shield,
+  BookOpen,
+  Users,
   AlertTriangle,
   Clock,
   HelpCircle,
@@ -86,7 +86,7 @@ export default function AssessmentCard({
   const colors = colorMap[color as keyof typeof colorMap] || colorMap.red;
 
   return (
-    <Card className="card-hover cursor-pointer border border-gray-100 dark:border-gray-700" data-testid={`assessment-card-${id}`}>
+    <Card className="group relative overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer touch-target" data-testid={`assessment-card-${id}`}>
       <CardContent className="p-5">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">

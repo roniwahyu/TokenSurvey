@@ -1,8 +1,7 @@
 import React from "react";
+import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   User,
   Bell,
@@ -13,7 +12,9 @@ import {
   Award,
   Calendar,
   Settings,
-  ChevronRight
+  ChevronRight,
+  BarChart3,
+  Clock
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,18 +35,18 @@ function MenuItem({ icon, title, subtitle, onClick, variant = "default" }: MenuI
       variant="ghost"
       onClick={onClick}
       className={cn(
-        "w-full flex items-center justify-between p-4 rounded-2xl shadow-sm border transition-colors h-auto",
-        variant === "default" 
-          ? "bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" 
-          : "bg-red-50 dark:bg-red-900 border-red-100 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-800"
+        "w-full flex items-center justify-between p-4 rounded-2xl shadow-sm border transition-all duration-200 h-auto touch-target",
+        variant === "default"
+          ? "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md hover:border-primary/20"
+          : "bg-red-50 dark:bg-red-900 border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-800"
       )}
       data-testid={`menu-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
       <div className="flex items-center space-x-3">
         <div className={cn(
           "w-8 h-8 rounded-lg flex items-center justify-center",
-          variant === "default" 
-            ? "bg-blue-100 dark:bg-blue-900" 
+          variant === "default"
+            ? "bg-blue-100 dark:bg-blue-900"
             : "bg-red-100 dark:bg-red-900"
         )}>
           {icon}
@@ -53,8 +54,8 @@ function MenuItem({ icon, title, subtitle, onClick, variant = "default" }: MenuI
         <div className="text-left">
           <span className={cn(
             "font-medium block",
-            variant === "default" 
-              ? "text-gray-700 dark:text-gray-300" 
+            variant === "default"
+              ? "text-gray-700 dark:text-gray-300"
               : "text-red-600 dark:text-red-400"
           )}>
             {title}
@@ -66,14 +67,14 @@ function MenuItem({ icon, title, subtitle, onClick, variant = "default" }: MenuI
           )}
         </div>
       </div>
-      <ChevronRight 
+      <ChevronRight
         className={cn(
           "text-sm",
-          variant === "default" 
-            ? "text-gray-400" 
+          variant === "default"
+            ? "text-gray-400"
             : "text-red-400"
-        )} 
-        size={16} 
+        )}
+        size={16}
       />
     </Button>
   );
@@ -87,6 +88,60 @@ export default function Profile() {
   const { data: userProgress } = useQuery({
     queryKey: ["/api/users", MOCK_USER_ID, "progress"],
   });
+
+  const setLocation = useLocation()[1];
+
+
+  const menuItems = [
+    {
+      icon: <BarChart3 className="w-5 h-5 text-primary" />,
+      title: "Riwayat Assessment",
+      subtitle: "Lihat hasil assessment sebelumnya",
+      onClick: () => setLocation("/history"),
+    },
+    {
+      icon: <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
+      title: "Assessment Tersimpan",
+      subtitle: "Lanjutkan assessment yang belum selesai",
+      onClick: () => setLocation("/assessment"),
+    },
+    {
+      icon: <Settings className="w-5 h-5 text-gray-600 dark:text-gray-400" />,
+      title: "Pengaturan",
+      subtitle: "Kelola preferensi aplikasi",
+      onClick: () => console.log("Settings clicked"),
+    },
+    {
+      icon: <Bell className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />,
+      title: "Notifikasi",
+      subtitle: "Atur pengingat dan notifikasi",
+      onClick: () => console.log("Notifications clicked"),
+    },
+    {
+      icon: <Shield className="w-5 h-5 text-green-600 dark:text-green-400" />,
+      title: "Privasi & Keamanan",
+      subtitle: "Kelola data dan keamanan akun",
+      onClick: () => console.log("Privacy clicked"),
+    },
+    {
+      icon: <Download className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
+      title: "Unduh Data",
+      subtitle: "Ekspor hasil assessment Anda",
+      onClick: () => console.log("Download clicked"),
+    },
+    {
+      icon: <Share2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
+      title: "Bagikan Aplikasi",
+      subtitle: "Ajak teman menggunakan TokenPedia",
+      onClick: () => console.log("Share clicked"),
+    },
+    {
+      icon: <HelpCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
+      title: "Bantuan & Dukungan",
+      subtitle: "FAQ dan kontak dukungan",
+      onClick: () => console.log("Help clicked"),
+    },
+  ];
 
   // Mock user data for demo (since we don't have real user management)
   const mockUser = {
@@ -125,9 +180,9 @@ export default function Profile() {
     <div className="px-4 py-6">
       {/* Profile Header */}
       <div className="text-center mb-8">
-        <img 
-          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=120&h=120" 
-          alt="Profile picture representing peaceful meditation and mental wellness" 
+        <img
+          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=120&h=120"
+          alt="Profile picture representing peaceful meditation and mental wellness"
           className="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 border-white dark:border-gray-800 shadow-lg"
           data-testid="profile-image"
         />
@@ -186,33 +241,15 @@ export default function Profile() {
 
       {/* Menu Items */}
       <div className="space-y-2 mb-8">
-        <MenuItem
-          icon={<Edit3 className="text-blue-600 dark:text-blue-400" size={16} />}
-          title="Edit Profil"
-          subtitle="Ubah informasi personal Anda"
-          onClick={handleEditProfile}
-        />
-
-        <MenuItem
-          icon={<Bell className="text-green-600 dark:text-green-400" size={16} />}
-          title="Notifikasi"
-          subtitle="Atur pengingat dan pemberitahuan"
-          onClick={handleNotifications}
-        />
-
-        <MenuItem
-          icon={<Shield className="text-purple-600 dark:text-purple-400" size={16} />}
-          title="Privasi & Keamanan"
-          subtitle="Kelola data dan keamanan akun"
-          onClick={handlePrivacySecurity}
-        />
-
-        <MenuItem
-          icon={<HelpCircle className="text-yellow-600 dark:text-yellow-400" size={16} />}
-          title="Bantuan & Dukungan"
-          subtitle="FAQ dan kontak bantuan"
-          onClick={handleHelpSupport}
-        />
+        {menuItems.map((item) => (
+          <MenuItem
+            key={item.title}
+            icon={item.icon}
+            title={item.title}
+            subtitle={item.subtitle}
+            onClick={item.onClick}
+          />
+        ))}
       </div>
 
       {/* Logout Button */}

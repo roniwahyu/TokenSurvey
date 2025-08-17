@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, TrendingUp, BookOpen, Video, Shield, Users, Star, Award } from "lucide-react";
+import { Heart, TrendingUp, BookOpen, Video, Shield, Users, Star, Award, BarChart3, User } from "lucide-react";
 import AssessmentCard from "@/components/AssessmentCard";
 import { assessmentTypes } from "@/lib/assessmentData";
 import { useLocation } from "wouter";
@@ -38,38 +38,38 @@ export default function Home() {
       <section className="relative px-4 py-12 overflow-hidden">
         {/* Islamic Pattern Background */}
         <div className="absolute inset-0 islamic-gradient opacity-90 mosque-pattern"></div>
-        
+
         {/* Floating Decorative Elements */}
         <div className="absolute top-16 right-16 w-24 h-24 bg-white opacity-15 rounded-full animate-float"></div>
         <div className="absolute bottom-20 left-16 w-20 h-20 bg-yellow-300 opacity-20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
         <div className="absolute top-32 left-8 w-16 h-16 bg-white opacity-10 rounded-full animate-pulse-soft"></div>
-        
+
         {/* Main Content */}
         <div className="relative z-10 animate-slide-up">
           <div className="glassmorphism-enhanced rounded-3xl p-8 text-center text-white max-w-md mx-auto">
             {/* Logo Integration */}
             <div className="mb-6 animate-fade-scale">
-              <img 
-                src={tokenPediaLogo} 
-                alt="TokenPedia Logo - Digitalisasi Pesantren" 
+              <img
+                src={tokenPediaLogo}
+                alt="TokenPedia Logo - Digitalisasi Pesantren"
                 className="w-20 h-20 mx-auto mb-4 drop-shadow-lg"
               />
               <div className="w-20 h-20 bg-white bg-opacity-20 rounded-3xl mx-auto mb-6 flex items-center justify-center backdrop-blur-sm">
                 <Heart className="text-white animate-pulse-soft" size={36} />
               </div>
             </div>
-            
+
             <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-white to-yellow-100 bg-clip-text text-transparent">
               TokenPedia Mental Health
             </h1>
             <h2 className="text-xl font-semibold mb-4 text-white/90">
               Kesehatan Mental Santri
             </h2>
-            
+
             <p className="text-white text-opacity-95 text-base leading-relaxed mb-8 px-2">
               Platform assessment dan edukasi kesehatan mental yang dirancang khusus untuk mendukung kesejahteraan psikologis santri dengan pendekatan islami dan modern
             </p>
-            
+
             <div className="space-y-4">
               <Button
                 onClick={() => setLocation("/assessment")}
@@ -79,25 +79,26 @@ export default function Home() {
                 <Shield className="mr-2" size={20} />
                 Mulai Assessment Kesehatan Mental
               </Button>
-              
+
               <div className="flex gap-3 justify-center">
                 <Button
                   onClick={() => setLocation("/education")}
                   variant="outline"
-                  className="border-white/30 text-white hover:bg-white/10 rounded-xl backdrop-blur-sm focus-ring"
+                  className="flex-1 bg-white/20 border-white/50 text-white hover:bg-white/30 px-6 py-3 rounded-xl font-semibold backdrop-blur-sm touch-target focus-ring shadow-md hover:shadow-lg"
                   data-testid="education-hero"
                 >
-                  <BookOpen className="mr-2" size={16} />
+                  <BookOpen className="mr-2" size={18} />
                   Edukasi
                 </Button>
+
                 <Button
-                  onClick={() => setLocation("/history")}
+                  onClick={() => setLocation("/profile")}
                   variant="outline"
-                  className="border-white/30 text-white hover:bg-white/10 rounded-xl backdrop-blur-sm focus-ring"
-                  data-testid="history-hero"
+                  className="flex-1 bg-white/20 border-white/50 text-white hover:bg-white/30 px-6 py-3 rounded-xl font-semibold backdrop-blur-sm touch-target focus-ring shadow-md hover:shadow-lg"
+                  data-testid="profile-hero"
                 >
-                  <TrendingUp className="mr-2" size={16} />
-                  Riwayat
+                  <User className="mr-2" size={18} />
+                  Profil
                 </Button>
               </div>
             </div>
@@ -119,7 +120,7 @@ export default function Home() {
               <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Assessment Selesai</div>
             </CardContent>
           </Card>
-          
+
           <Card className="modern-card animate-slide-up border-0 shadow-xl" style={{animationDelay: '0.2s'}}>
             <CardContent className="p-5 text-center">
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-2xl mx-auto mb-3 flex items-center justify-center">
@@ -131,7 +132,7 @@ export default function Home() {
               <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Sedang Berjalan</div>
             </CardContent>
           </Card>
-          
+
           <Card className="modern-card animate-slide-up border-0 shadow-xl" style={{animationDelay: '0.3s'}}>
             <CardContent className="p-5 text-center">
               <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-2xl mx-auto mb-3 flex items-center justify-center">
@@ -145,7 +146,7 @@ export default function Home() {
           </Card>
         </div>
       </section>
-      
+
       {/* Features Section */}
       <section className="px-4 mb-8">
         <h3 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
@@ -161,7 +162,7 @@ export default function Home() {
               <p className="text-sm text-gray-600 dark:text-gray-300">5 skala psikologi tervalidasi untuk evaluasi komprehensif</p>
             </CardContent>
           </Card>
-          
+
           <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.5s'}}>
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">
@@ -171,7 +172,7 @@ export default function Home() {
               <p className="text-sm text-gray-600 dark:text-gray-300">Materi kesehatan mental dengan perspektif Islam</p>
             </CardContent>
           </Card>
-          
+
           <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.6s'}}>
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900 dark:to-yellow-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">
@@ -181,7 +182,7 @@ export default function Home() {
               <p className="text-sm text-gray-600 dark:text-gray-300">Platform khusus untuk santri Indonesia</p>
             </CardContent>
           </Card>
-          
+
           <Card className="modern-card animate-slide-up border-0 shadow-lg" style={{animationDelay: '0.7s'}}>
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800 rounded-3xl mx-auto mb-4 flex items-center justify-center">

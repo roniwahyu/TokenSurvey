@@ -1,4 +1,4 @@
-import { Home, ClipboardList, GraduationCap, History, User } from "lucide-react";
+import { Home, ClipboardList, GraduationCap, User } from "lucide-react";
 import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 
@@ -6,7 +6,6 @@ const navItems = [
   { id: "home", path: "/", icon: Home, label: "Beranda" },
   { id: "assessment", path: "/assessment", icon: ClipboardList, label: "Assessment" },
   { id: "education", path: "/education", icon: GraduationCap, label: "Edukasi" },
-  { id: "history", path: "/history", icon: History, label: "Riwayat" },
   { id: "profile", path: "/profile", icon: User, label: "Profil" },
 ];
 
@@ -25,10 +24,10 @@ export default function BottomNavigation() {
               key={item.id}
               onClick={() => setLocation(item.path)}
               className={cn(
-                "nav-item flex flex-col items-center space-y-1 py-2 px-3 rounded-lg transition-colors",
+                "flex flex-col items-center justify-center space-y-1 px-2 py-3 rounded-lg transition-all duration-200 touch-target",
                 isActive
-                  ? "text-primary dark:text-primary"
-                  : "text-gray-500 dark:text-gray-400"
+                  ? "text-primary bg-primary/15 shadow-sm border border-primary/20"
+                  : "text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/10 hover:shadow-sm"
               )}
               data-testid={`nav-${item.id}`}
             >
